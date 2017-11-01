@@ -1,0 +1,21 @@
+version: '2.3'
+services:
+  monero-stratum:
+    image: 'valentinvieriu/monero-stratum:${MONERO_VERSION}'
+    build:
+      context: .
+      args:
+        - MONERO_VERSION=${MONERO_VERSION}
+    restart: 'unless-stopped'
+    stdin_open: true
+    # init: true
+    ports:
+        - 8082:8082
+        - 1111:1111
+        - 3333:3333
+    volumes:
+      - '${ROOT_FOLDER}/config.json:/var/config.json'
+    entrypoint: ["monero-stratum"]
+    command: "\
+      /var/config.json
+      "
